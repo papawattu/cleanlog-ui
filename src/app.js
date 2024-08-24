@@ -1,8 +1,12 @@
 import Server from './server/server.js'
+import HomepageController from './controllers/homepage.js'
 
 export default function App({ port = 3000 } = {}) {
   let isRunning = false
-  const server = new Server({ port })
+
+  const controllers = [{ path: '/', router: HomepageController() }]
+  const server = new Server({ port, controllers })
+
   return {
     init: () => {
       isRunning = true

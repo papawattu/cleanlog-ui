@@ -29,7 +29,7 @@ describe('Main App', () => {
   })
   it('Should launch home page', async () => {
     await page.goto(`http://localhost:${port}`)
-    const text = await page.evaluate(() => document.head.title)
+    const text = await page.evaluate(() => document.title)
     expect(text).toBe('Home Page')
   })
 })
