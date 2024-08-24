@@ -27,4 +27,9 @@ describe('Main App', () => {
   it('Should launch page and connect', async () => {
     await page.goto(`http://localhost:${port}`)
   })
+  it('Should launch home page', async () => {
+    await page.goto(`http://localhost:${port}`)
+    const text = await page.evaluate(() => document.head.title)
+    expect(text).toBe('Home Page')
+  })
 })
