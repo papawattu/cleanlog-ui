@@ -1,26 +1,33 @@
 import CreateLoginAuthService from './loginService'
 
 describe('loginService', () => {
-  it('should return true when correct creds are passed', () => {
+  const findUser = (username) =>
+    Promise.resolve({ username, password: 'password' })
+  const validatePassword = (user, password) => Promise.resolve(true)
+  it('should return true when correct creds are passed', async () => {
     // Arrange
-    const authenticate = CreateLoginAuthService()
+    const authenticate = CreateLoginAuthService({ findUser, validatePassword })
     const username = 'user'
     const password = 'password'
 
     // Act
-    const result = authenticate(username, password)
+    const result = await authenticate(username, password)
 
     // Assert
     expect(result).toBeTruthy()
   })
-  it('should return true when correct creds are passed', () => {
+  it('should return true when correct creds are passed', async () => {
     // Arrange
-    const authenticate = CreateLoginAuthService()
+    const authenticate = CreateLoginAuthService({
+      findUser,
+      validatePassword: () => false,
+    })
+
     const username = 'baduser'
     const password = 'password'
 
     // Act
-    const result = authenticate(username, password)
+    const result = await authenticate(username, password)
 
     // Assert
     expect(result).toBeFalsy()

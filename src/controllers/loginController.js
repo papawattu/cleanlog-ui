@@ -6,9 +6,9 @@ export default function CreateLoginController({
   viewWrapper,
   authenticate = () => true,
 }) {
-  return (req, res) => {
+  return async (req, res) => {
     if (req.method === 'POST') {
-      if (!authenticate(req.body.username, req.body.password)) {
+      if (!(await authenticate(req.body.username, req.body.password))) {
         res.send(
           viewWrapper({
             isHTMX: isHTMX(req),

@@ -79,7 +79,7 @@ describe('Main App', () => {
     )
     expect(text).toBe(`Invalid username or password`)
   })
-  it('Should fail login with invalid user', async () => {
+  it('Should fail login with invalid password', async () => {
     const page = await browser.newPage()
     await page.goto(`http://localhost:${port}`, { waitUntil: 'networkidle0' })
 
