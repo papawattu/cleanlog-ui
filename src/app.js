@@ -15,7 +15,7 @@ export default function App({ port = 3000 } = {}) {
       path: '/login',
       router: CreateLoginController({
         viewWrapper,
-        authenticate: CreateLoginAuthService().authenticate,
+        authenticate: CreateLoginAuthService(),
       }),
     },
     { path: '/', router: CreateHomepageController({ viewWrapper }) },

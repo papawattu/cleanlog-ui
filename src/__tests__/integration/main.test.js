@@ -62,6 +62,7 @@ describe('Main App', () => {
     expect(text).toBe(`Welcome back ${testUser}`)
   })
   it('Should fail login with invalid user', async () => {
+    const page = await browser.newPage()
     await page.goto(`http://localhost:${port}`)
     const loginButton = await page.$('button')
     await loginButton.click()
@@ -79,7 +80,9 @@ describe('Main App', () => {
     expect(text).toBe(`Invalid username or password`)
   })
   it('Should fail login with invalid user', async () => {
-    await page.goto(`http://localhost:${port}`)
+    const page = await browser.newPage()
+    await page.goto(`http://localhost:${port}`, { waitUntil: 'networkidle0' })
+
     const loginButton = await page.$('button')
     await loginButton.click()
     await page.waitForSelector('form')
@@ -88,12 +91,11 @@ describe('Main App', () => {
     await page.waitForSelector('button[type="submit"]')
     await page.type('input[name="username"]', testUser)
     await page.type('input[name="password"]', 'invalid')
-    await page.click('button[type="submit"]')
+    await page.click('button[type="submit"]', { waitUntil: 'networkidle0' })
     await page.waitForSelector('p#message')
     const text = await page.evaluate(
       () => document.querySelector('p#message').textContent
     )
-    await page.screenshot({ path: 'screenshot.png' })
     expect(text).toBe(`Invalid username or password`)
   })
 })

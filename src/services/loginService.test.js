@@ -3,7 +3,7 @@ import CreateLoginAuthService from './loginService'
 describe('loginService', () => {
   it('should return true when correct creds are passed', () => {
     // Arrange
-    const { authenticate } = CreateLoginAuthService()
+    const authenticate = CreateLoginAuthService()
     const username = 'user'
     const password = 'password'
 
@@ -15,7 +15,7 @@ describe('loginService', () => {
   })
   it('should return true when correct creds are passed', () => {
     // Arrange
-    const { authenticate } = CreateLoginAuthService()
+    const authenticate = CreateLoginAuthService()
     const username = 'baduser'
     const password = 'password'
 
