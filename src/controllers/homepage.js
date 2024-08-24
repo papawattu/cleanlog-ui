@@ -1,11 +1,9 @@
-export default function HomepageController() {
+import HomePageView from '../views/homepage.js'
+
+export default function HomepageController({
+  viewWrapper = (view) => view,
+} = {}) {
   return (req, res) => {
-    res.send(`<html>
-      <head>
-        <title>Home Page</title>
-      </head>
-      <body>
-        <h1>Welcome to the Home Page</h1>
-      </body>`)
+    res.send(viewWrapper(HomePageView()))
   }
 }
