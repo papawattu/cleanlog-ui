@@ -21,8 +21,8 @@
     "lint:fix": "eslint . --fix",
     "build": "NODE_OPTIONS=--experimental-vm-modules npx tailwindcss -o ./public/css/output.css --minify"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "Jamie Nuttall",
+  "license": "MIT",
   "description": "",
   "devDependencies": {
     "eslint": "^9.9.1",
