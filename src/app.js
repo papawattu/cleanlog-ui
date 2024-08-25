@@ -6,6 +6,8 @@ import Layout from './views/layout.js'
 import logger from './logger.js'
 import CreateLoginAuthService from './services/loginService.js'
 import CreateUserService from './services/userService.js'
+import WelcomePageView from './views/welcomePage.js'
+import ControllerSetup from './controllers/controllerSetup.js'
 
 const users = [
   { username: 'admin', password: 'admin' },
@@ -15,17 +17,14 @@ export default function App({ port = 3000 } = {}) {
   let isRunning = false
 
   const { findUser, validatePassword } = CreateUserService({ users })
-  const viewWrapper = CreateViewWrapper({ layout: Layout })
-  const controllers = [
-    {
-      path: '/login',
-      router: CreateLoginController({
-        viewWrapper,
-        authenticate: CreateLoginAuthService({ findUser, validatePassword }),
-      }),
-    },
-    { path: '/', router: CreateHomepageController({ viewWrapper }) },
-  ]
+
+  const loginAuthService = CreateLoginAuthService({
+    findUser,
+    validatePassword,
+  })
+
+  const controllers = ControllerSetup({ loginAuthService })
+
   const server = new Server({ port, controllers })
 
   return {

@@ -1,5 +1,3 @@
-export default function createViewWrapper({ layout }) {
-  return ({ content, isHTMX }) => {
-    return String.raw`${!isHTMX ? layout({ content }) : content}`
-  }
-}
+export default ({ layout }) =>
+  ({ content, isHTMX }) =>
+    String.raw`${!isHTMX ? layout({ content }) : content}`

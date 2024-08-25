@@ -1,10 +1,10 @@
 import LoginView from '../views/loginView.js'
-import WelcomePageView from '../views/welcomePage.js'
 import { isHTMX } from '../helpers/helpers.js'
 
 export default function CreateLoginController({
   viewWrapper,
   authenticate = () => true,
+  sucessfulView,
 }) {
   return async (req, res) => {
     if (req.method === 'POST') {
@@ -20,7 +20,7 @@ export default function CreateLoginController({
       res.send(
         viewWrapper({
           isHTMX: isHTMX(req),
-          content: WelcomePageView({ user: req.body.username }),
+          content: sucessfulView({ user: req.body.username }),
         })
       )
       return
