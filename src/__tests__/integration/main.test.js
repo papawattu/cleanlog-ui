@@ -44,31 +44,6 @@ describe('Main App', () => {
     )
     expect(text).toBe('Login')
   })
-  it('Should login and welcome user', async () => {
-    await page.goto(`http://localhost:${port}`)
-    const loginButton = await page.$('button')
-    await loginButton.click()
-    await page.waitForSelector('form')
-    await page.waitForSelector('input[name="username"]')
-    await page.waitForSelector('input[name="password"]')
-    await page.waitForSelector('button[type="submit"]')
-    await page.type('input[name="username"]', testUser)
-    await page.type('input[name="password"]', testPassword)
-    await page.click('button[type="submit"]')
-    await page.waitForSelector('h3')
-    const text = await page.evaluate(
-      () => document.querySelector('h3').textContent
-    )
-    expect(text).toBe(`Welcome back ${testUser}`)
-  })
-  it('Should display logged in user in header', async () => {
-    await page.waitForSelector('nav', { waitUntil: 'networkidle0' })
-
-    const text = await page.evaluate(
-      () => document.querySelector('a#profile').textContent
-    )
-    expect(text).toBe(testUser)
-  })
   it('Should fail login with invalid user', async () => {
     const page = await browser.newPage()
     await page.goto(`http://localhost:${port}`)
@@ -107,5 +82,47 @@ describe('Main App', () => {
       () => document.querySelector('p#message').textContent
     )
     expect(text).toBe(`Invalid username or password`)
+  })
+  it('Should login and welcome user', async () => {
+    const page = await browser.newPage()
+    await page.goto(`http://localhost:${port}`)
+    const loginButton = await page.$('button')
+    await loginButton.click()
+    await page.waitForSelector('form')
+    await page.waitForSelector('input[name="username"]')
+    await page.waitForSelector('input[name="password"]')
+    await page.waitForSelector('button[type="submit"]')
+    await page.type('input[name="username"]', testUser)
+    await page.type('input[name="password"]', testPassword)
+    await page.click('button[type="submit"]')
+    await page.waitForSelector('h3')
+    const text = await page.evaluate(
+      () => document.querySelector('h3').textContent
+    )
+    expect(text).toBe(`Welcome back ${testUser}`)
+  })
+  it('Should display logged in user in header', async () => {
+    const page = await browser.newPage()
+    await page.goto(`http://localhost:${port}`)
+
+    await page.waitForSelector('nav', { waitUntil: 'networkidle0' })
+
+    const text = await page.evaluate(
+      () => document.querySelector('a#profile').textContent
+    )
+    expect(text).toBe(testUser)
+  })
+  it('Should logout user', async () => {
+    const page = await browser.newPage()
+    await page.goto(`http://localhost:${port}`, { waitUntil: 'networkidle0' })
+    await page.waitForSelector('a#logout', { waitUntil: 'networkidle0' })
+
+    const logoutButton = await page.$('a#logout')
+    await logoutButton.click()
+    await page.waitForSelector('button#login')
+    const text = await page.evaluate(
+      () => document.querySelector('button#login').textContent
+    )
+    expect(text).toBe('Login')
   })
 })

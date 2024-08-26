@@ -5,7 +5,7 @@ export default ({ user = null }) => String.raw`
   <li>${
     !user
       ? '<a href="/login">Login</a>'
-      : `<a href="/profile/${user}" id="profile">${user}</a></li><li><a href="/logout">Logout</a>`
+      : `<a href="/profile/${user}" id="profile">${user}</a></li><li><a href="/logout" id="logout">Logout</a>`
   }</li>
 </ul>
 </nav>`
