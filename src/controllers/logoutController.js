@@ -3,7 +3,7 @@ import logger from '../logger.js'
 export default function LogoutController({ viewWrapper }) {
   return (req, res) => {
     if (req.method === 'GET') {
-      logger.info(
+      logger.debug(
         `User ${req.session.user} logged out, session ${req.session.id}`
       )
       req.session.destroy((err) => {
@@ -11,11 +11,11 @@ export default function LogoutController({ viewWrapper }) {
           res.status(500).send('Error logging out')
           return
         }
-        res.setHeader('HX-Trigger', 'navUpdate')
-        res.setHeader('HX-Redirect', '/')
         res.redirect('/')
         return
       })
+    } else {
+      res.status(405).send('Method Not Allowed')
     }
   }
 }

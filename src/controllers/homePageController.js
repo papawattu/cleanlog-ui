@@ -6,7 +6,7 @@ import logger from '../logger.js'
 export default function CreateHomepageController({ viewWrapper }) {
   return (req, res) => {
     if (req.session.user) {
-      logger.info(
+      logger.debug(
         `User ${req.session.user} logged in, session ${req.session.id}`
       )
       res.setHeader('HX-Trigger', 'navUpdate')

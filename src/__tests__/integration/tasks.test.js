@@ -107,6 +107,21 @@ describe('Tasks', () => {
       () => document.querySelectorAll('#tasks li').length
     )
 
-    expect(tasks).toBe(2) // 1 task
+    expect(tasks).toBe(2) // 2 tasks
+  })
+  it('Should delete task', async () => {
+    await page.waitForSelector('button#deletetask')
+    await page.click('button#deletetask', { waitUntil: 'networkidle0' })
+    await page.waitForSelector('h2#message')
+
+    const text = await page.evaluate(
+      () => document.querySelector('h2#message').textContent
+    )
+
+    expect(text).toBe(`Task Deleted`)
+    const tasks = await page.evaluate(
+      () => document.querySelectorAll('#tasks li').length
+    )
+    expect(tasks).toBe(1) // 1 task
   })
 })

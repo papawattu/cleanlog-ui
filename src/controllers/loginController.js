@@ -19,7 +19,7 @@ export default function CreateLoginController({
         return
       }
       req.session.user = req.body.username
-      logger.info(
+      logger.debug(
         `User ${req.session.user} logged in, session ${req.session.id}`
       )
       req.session.save((err) => {

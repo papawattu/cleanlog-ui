@@ -14,15 +14,24 @@ export default function CreateTaskController({
   }),
 }) {
   return (req, res) => {
+    logger.debug(
+      `TaskController ${req.method} ${req.url} ${JSON.stringify(req.params)}`
+    )
     const { user } = req.session
-    const tasks = taskService().getTasks()
+    let tasks = taskService().getTasks()
 
     logger.debug(`TaskController ${req.method} ${req.url}`)
-    if (req.method === 'GET' && req.url === '/tasks/' && isHTMX(req)) {
+
+    if (req.method === 'DELETE' && isHTMX(req)) {
+      logger.debug(`Deleting task ${req.params[0]}`)
+      const id = parseInt(req.params[0])
+      tasks = tasks.filter((task) => task.id !== id)
+      taskService().saveTasks(tasks)
+
       res.send(
         viewWrapper({
           isHTMX: true,
-          content: TaskListFragment({ tasks, user }),
+          content: TaskListFragment({ tasks, user, message: 'Task Deleted' }),
         })
       )
       return
@@ -38,6 +47,7 @@ export default function CreateTaskController({
     }
     if (req.method === 'POST' && req.url === '/tasks/addtask' && isHTMX(req)) {
       tasks.push({
+        id: tasks.length + 1,
         name: req.body.taskname,
         description: req.body.taskdescription,
         user,
@@ -49,6 +59,15 @@ export default function CreateTaskController({
         viewWrapper({
           isHTMX: true,
           content: TaskListFragment({ tasks, user, message: 'Task Added' }),
+        })
+      )
+      return
+    }
+    if (req.method === 'GET' && req.url === '/tasks/' && isHTMX(req)) {
+      res.send(
+        viewWrapper({
+          isHTMX: true,
+          content: TaskListFragment({ tasks, user }),
         })
       )
       return
