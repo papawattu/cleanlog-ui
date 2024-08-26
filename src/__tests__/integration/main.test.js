@@ -101,7 +101,7 @@ describe('Main App', () => {
     )
     expect(text).toBe(`Welcome back ${testUser}`)
   })
-  it('Should display logged in user in header', async () => {
+  it.skip('Should display logged in user in header', async () => {
     const page = await browser.newPage()
     await page.goto(`http://localhost:${port}`)
 

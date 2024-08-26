@@ -4,7 +4,7 @@ export default ({ message = 'Task List', tasks = [], user } = {}) => {
         <p id="notasks">${user} you have no tasks</p>`
   }
   return String.raw`<h2 id="message">${message}</h2>
-    <ul id="tasks">
+    <ul id="tasks" class="flex">
       ${tasks
         .map(
           (task) => String.raw`<li id="task-${task.id}">

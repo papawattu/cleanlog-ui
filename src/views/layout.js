@@ -14,13 +14,17 @@ export default ({
     <script src="https://unpkg.com/htmx.org@2.0.2" integrity="sha384-Y7hw+L/jvKeWIRRkqWYfPcvVxHzVzn5REgzbawhxAuQGwX1XWe70vji+VSeHOThJ" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="/css/output.css">
   </head>
-  <body>
+  <body class="flex flex-col min-h-screen">
     <header>
       ${NavFragment({ user })}
     </header>
+    <div class="flex-grow">
     ${content}
+    </div>
     <footer>
-      <p>Footer</p>
+      <div class="w-full max-w-screen-xl mx-auto p-4 md:py-8">
+        <p>Footer</p>
+      </div>
     </footer>
   </body>
 </html>`
