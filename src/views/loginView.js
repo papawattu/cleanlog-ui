@@ -7,7 +7,7 @@ export default ({
     <h3>Please Login</h3>
         <form hx-post="/login" hx-target="#main">
             <input name="username" type="text" placeholder="Username" required>
-            <input name="password" type="password" placeholder="Password" required>
+            <input name="password" type="password" placeholder="Password" autocomplete required>
             <button type="submit">Login</button>
             ${message ? `<p id="message">${message}</p>` : ''}
         </form>

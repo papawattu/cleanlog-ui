@@ -14,12 +14,13 @@
   "scripts": {
     "start": "node src/index.js",
     "watch": "node --watch src src/index.js",
+    "tailwind-watch": "npx tailwindcss -i src/input.css -o ./public/css/output.css -w",
     "test": "NODE_OPTIONS=--experimental-vm-modules npx jest",
     "test:watch": "NODE_OPTIONS=--experimental-vm-modules npx jest --watch",
     "pretest": "npm run lint",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
-    "build": "NODE_OPTIONS=--experimental-vm-modules npx tailwindcss -o ./public/css/output.css --minify"
+    "build": "NODE_OPTIONS=--experimental-vm-modules npx tailwindcss -i src/input.css -o ./public/css/output.css --minify"
   },
   "author": "Jamie Nuttall",
   "license": "MIT",
@@ -35,6 +36,7 @@
     "body-parser": "^1.20.2",
     "cors": "^2.8.5",
     "express": "^4.19.2",
+    "express-session": "^1.18.0",
     "winston": "^3.14.2"
   }
 }

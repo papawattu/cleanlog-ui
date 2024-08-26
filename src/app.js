@@ -30,23 +30,23 @@ export default function App({ port = 3000 } = {}) {
   return {
     init: () => {
       if (isRunning) {
-        logger.warn('App is already running')
+        logger.warn('Clean Log Web App is already running')
         return
       }
       isRunning = true
-      logger.info('App is starting')
+      logger.info('Clean Log Web App is starting')
 
       server.start()
     },
     stop: () => {
       if (!isRunning) {
-        logger.warn('App is already stopped')
+        logger.warn('Clean Log Web App is already stopped')
         return
       }
       isRunning = false
-      logger.info('App is stopping')
+      logger.info('Clean Log Web App is stopping')
       server.stop()
-      logger.info('App stopped')
+      logger.info('Clean Log Web App stopped')
     },
     isRunning: () => isRunning,
   }

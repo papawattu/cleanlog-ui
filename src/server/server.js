@@ -1,4 +1,5 @@
 import express from 'express'
+import expressSession from 'express-session'
 import bodyParser from 'body-parser'
 import cors from 'cors'
 import logger from '../logger.js'
@@ -11,6 +12,7 @@ export default function Server({ port, controllers } = {}) {
       logger.info('Server is starting')
       const app = express()
 
+      app.use(expressSession({ secret: process.env.SECRET || 'secret' }))
       app.use(cors())
       app.use(bodyParser.json())
       app.use(bodyParser.urlencoded({ extended: true }))
