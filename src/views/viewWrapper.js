@@ -1,3 +1,3 @@
 export default ({ layout }) =>
-  ({ content, isHTMX }) =>
-    String.raw`${!isHTMX ? layout({ content }) : content}`
+  ({ content, isHTMX, user = null }) =>
+    String.raw`${!isHTMX ? layout({ content, user }) : content}`

@@ -28,10 +28,12 @@ export default function CreateLoginController({
           res.status(500).send('Internal Server Error')
           return
         }
+        res.setHeader('HX-Trigger', 'navUpdate')
         res.send(
           viewWrapper({
+            user: req.session.user,
             isHTMX: isHTMX(req),
-            content: sucessfulView({ user: req.body.username }),
+            content: sucessfulView({ user: req.session.user }),
           })
         )
       })

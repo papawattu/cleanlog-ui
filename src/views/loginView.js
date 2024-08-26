@@ -5,10 +5,10 @@ export default ({
   message = '',
 } = {}) => String.raw`${titleHelper(title)}<main id="main">
     <h3>Please Login</h3>
-        <form hx-post="/login" hx-target="#main">
+        <form id="loginform" hx-post="/login" hx-target="#main">
             <input name="username" type="text" placeholder="Username" required>
             <input name="password" type="password" placeholder="Password" autocomplete required>
-            <button type="submit">Login</button>
+            <button  type="submit">Login</button>
             ${message ? `<p id="message">${message}</p>` : ''}
         </form>
     </main>`

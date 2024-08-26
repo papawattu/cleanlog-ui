@@ -1,4 +1,10 @@
-export default ({ title = 'Home Page', content } = {}) => String.raw`
+import NavFragment from './fragments/navFragment.js'
+
+export default ({
+  title = 'Home Page',
+  content,
+  user = null,
+} = {}) => String.raw`
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -10,12 +16,7 @@ export default ({ title = 'Home Page', content } = {}) => String.raw`
   </head>
   <body>
     <header>
-      <nav>
-        <ul>
-          <li><a href="/">Home</a></li>
-          <li><a href="/login">Login</a></li>
-        </ul>
-      </nav>
+      ${NavFragment({ user })}
     </header>
     ${content}
     <footer>
