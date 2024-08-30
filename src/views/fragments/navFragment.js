@@ -1,16 +1,23 @@
+const loginButton = String.raw`<a href="/login" class="">Login</a>`
+const logoutButton = String.raw`<a href="/logout" id="logout" class="">Logout</a>`
+
 export default ({ user = null }) => String.raw`
-<nav hx-get="/nav" hx-trigger="navUpdate from:body" class="bg-white border-gray-200">
-  <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-  <h1 class="font-bold text-4xl">Cleaning Tracker</h1>
-    <div class="flex items-center space-x-4">
-      <ul class="font-medium flex flex-col p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0 md:bg-white">
-        <li><a href="/" class="block py-2 px-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0">Home</a></li>
-        <li>${
-          !user
-            ? '<a href="/login" class="block py-2 px-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0">Login</a>'
-            : `<li><a href="/logout" id="logout" class="block py-2 px-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0">Logout</a>`
-        }</li>
-      </ul>
-    </div>
+<nav hx-get="/nav" hx-trigger="navUpdate from:body" class="">
+  <div class="flex justify-between">
+    <h1 class="font-extrabold text-3xl p-4 text-black">Cleaning Tracker</h1>
+    <ul class="flex justify-end items-center">
+      <li class="list-none inline-block px-4 font-semibold" ><a href="/" class="">Home</a></li>
+      <li class="list-none inline-block px-4 font-semibold" ><a href="/tasks" class="">Tasks</a></li>
+      <li class="list-none inline-block px-4 font-semibold" ><a href="/about" class="">About</a></li>
+      <li class="list-none inline-block px-4 font-semibold" >${
+        !user ? '' : logoutButton
+      }</li>
+      <li class="list-none inline-block px-4 font-semibold" ><a href="/profile/${
+        user?.sub || 'no-user'
+      }" class=""><img src="${
+  user?.picture || '/img/no-user.png'
+}" class="w-10 h-10 rounded-full" alt="user picture" /></a></li>
+      
+    </ul>
   </div>
 </nav>`

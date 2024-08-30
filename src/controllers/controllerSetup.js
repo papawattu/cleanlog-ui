@@ -16,6 +16,14 @@ export default function ControllerSetup({ loginAuthService }) {
         sucessfulView: welcomePageView,
       }),
     },
+    {
+      path: '/auth/google',
+      router: CreateLoginController({
+        viewWrapper,
+        authenticate: loginAuthService,
+        sucessfulView: welcomePageView,
+      }),
+    },
     { path: '/tasks/*', router: TaskController({ viewWrapper }) },
     { path: '/nav', router: CreateNavController({ viewWrapper }) },
     { path: '/logout', router: LogoutController({ viewWrapper }) },

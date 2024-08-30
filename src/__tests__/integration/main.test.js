@@ -16,8 +16,8 @@ describe('Main App', () => {
     app = new App({ port })
     app.init()
     browser = await puppeteer.launch({
-      headless: true,
-      //  slowMo: 80,
+      headless: false,
+      slowMo: 10,
     })
     page = await browser.newPage()
   })
@@ -35,14 +35,23 @@ describe('Main App', () => {
     const text = await page.evaluate(() => document.title)
     expect(text).toBe('Home Page')
   })
-  it('Should have login button on home page', async () => {
+  it('Should have login with email button on home page', async () => {
     await page.goto(`http://localhost:${port}`)
     const loginButton = await page.$('button')
     const text = await page.evaluate(
       (button) => button.textContent,
       loginButton
     )
-    expect(text).toBe('Login')
+    expect(text).toBe('Login with email')
+  })
+  it('Should have login with google button on home page', async () => {
+    await page.goto(`http://localhost:${port}`)
+    const loginButton = await page.$('#googlelogin')
+    const text = await page.evaluate(
+      (button) => button.textContent,
+      loginButton
+    )
+    expect(text).toBe('Sign in with GoogleSign in with Google')
   })
   it('Should fail login with invalid user', async () => {
     const page = await browser.newPage()
@@ -123,6 +132,6 @@ describe('Main App', () => {
     const text = await page.evaluate(
       () => document.querySelector('button#login').textContent
     )
-    expect(text).toBe('Login')
+    expect(text).toBe('Login with email')
   })
 })

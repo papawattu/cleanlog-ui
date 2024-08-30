@@ -17,10 +17,10 @@ describe('Tasks', () => {
     app.init()
     browser = await puppeteer.launch({
       headless: true,
-      //  slowMo: 80,
+      slowMo: 0,
     })
     page = await browser.newPage()
-    await page.goto(`http://localhost:${port}`)
+    await page.goto(`http://localhost:${port}`, { waitUntil: 'networkidle0' })
     const loginButton = await page.$('button')
     await loginButton.click()
     await page.waitForSelector('form')

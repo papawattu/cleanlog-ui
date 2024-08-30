@@ -1,7 +1,11 @@
-export default ({ message = 'Task List', tasks = [], user } = {}) => {
+export default ({
+  message = 'Task List',
+  tasks = [],
+  user: { given_name },
+} = {}) => {
   if (!tasks.length) {
     return String.raw`<h2 id="message">${message}</h2>
-        <p id="notasks">${user} you have no tasks</p>`
+        <p id="notasks">${given_name} you have no tasks</p>`
   }
   return String.raw`<h2 id="message">${message}</h2>
     <ul id="tasks" class="flex">
