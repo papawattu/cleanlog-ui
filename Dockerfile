@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1
 FROM node 
-LABEL org.opencontainers.image.source=https://github.com/papawattu/cleanlog
+LABEL org.opencontainers.image.source=https://github.com/papawattu/cleanlog-ui
 LABEL org.opencontainers.image.description="A simple web app log cleaning house"
 LABEL org.opencontainers.image.licenses=MIT
 

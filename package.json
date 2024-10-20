@@ -1,5 +1,5 @@
 {
-  "name": "cleanlog",
+  "name": "cleanlog-ui",
   "version": "1.0.0",
   "main": "src/index.js",
   "type": "module",
@@ -13,7 +13,7 @@
   },
   "scripts": {
     "start": "node src/index.js",
-    "watch": "node --watch src src/index.js",
+    "watch": "NODE_ENV=test node --watch src src/index.js",
     "tailwind-watch": "npx tailwindcss -i src/input.css -o ./public/css/output.css -w",
     "test": "NODE_OPTIONS=--experimental-vm-modules npx jest",
     "test:watch": "NODE_OPTIONS=--experimental-vm-modules npx jest --watch",
@@ -36,9 +36,10 @@
     "body-parser": "^1.20.2",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
-    "express": "^4.19.2",
-    "express-session": "^1.18.0",
+    "express": "^4.21.0",
+    "express-session": "^1.0.0",
     "google-auth-library": "^9.14.0",
+    "http-proxy": "^1.18.1",
     "winston": "^3.14.2"
   }
 }

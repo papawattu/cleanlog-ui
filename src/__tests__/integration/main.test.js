@@ -16,8 +16,8 @@ describe('Main App', () => {
     app = new App({ port })
     app.init()
     browser = await puppeteer.launch({
-      headless: false,
-      slowMo: 10,
+      headless: true,
+      slowMo: 5,
     })
     page = await browser.newPage()
   })

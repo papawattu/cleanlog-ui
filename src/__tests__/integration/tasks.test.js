@@ -17,7 +17,7 @@ describe('Tasks', () => {
     app.init()
     browser = await puppeteer.launch({
       headless: true,
-      slowMo: 0,
+      slowMo: 10,
     })
     page = await browser.newPage()
     await page.goto(`http://localhost:${port}`, { waitUntil: 'networkidle0' })

@@ -8,6 +8,7 @@ import CreateLoginAuthService from './services/loginService.js'
 import CreateUserService from './services/userService.js'
 import WelcomePageView from './views/welcomePage.js'
 import ControllerSetup from './controllers/controllerSetup.js'
+import CreateWorkLogService from './services/workLogService.js'
 
 const users = [
   { username: 'admin', password: 'admin' },
@@ -23,7 +24,7 @@ export default function App({ port = 3000 } = {}) {
     validatePassword,
   })
 
-  const controllers = ControllerSetup({ loginAuthService })
+  const controllers = ControllerSetup({ loginAuthService  })
 
   const server = new Server({ port, controllers })
 
