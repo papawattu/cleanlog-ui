@@ -1,14 +1,8 @@
 import Server from './server/server.js'
-import CreateHomepageController from './controllers/homePageController.js'
-import CreateLoginController from './controllers/loginController.js'
-import CreateViewWrapper from './views/viewWrapper.js'
-import Layout from './views/layout.js'
 import logger from './logger.js'
 import CreateLoginAuthService from './services/loginService.js'
 import CreateUserService from './services/userService.js'
-import WelcomePageView from './views/welcomePage.js'
 import ControllerSetup from './controllers/controllerSetup.js'
-import CreateWorkLogService from './services/workLogService.js'
 
 const users = [
   { username: 'admin', password: 'admin' },
