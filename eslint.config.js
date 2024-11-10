@@ -1,5 +1,5 @@
 export default [
   {
-    files: ['**/*.js'],
+    files: ['**/*.js', '**/*.test.js'],
   },
 ]

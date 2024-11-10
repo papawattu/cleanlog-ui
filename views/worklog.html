@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Work View</title>
+  </head>
+  <body>
+    <table>
+      <tr>
+        <th>Description</th>
+        <th>Date Worked</th>
+        <th>Hours Worked</th>
+        <th>Actions</th>
+      </tr>
+      ${workList.map(work => `
+      <tr>
+        <td><a href="/tasks/${work.workId}">${work.description}</a></td>
+        <td>${work.date}</td>
+        <td>${work.hours}</td>
+        <td>
+          <a href="/editwork/${work.workId}">Edit</a>
+          <a href="/deletework/${work.workId}">Delete</a>
+        </td>
+      </tr>
+      `).join('')}
+    </table>
+    <a href="/addwork">Add Work</a>
+  </body>
+</html>
