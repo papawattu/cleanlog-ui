@@ -7,7 +7,12 @@
     <h1>Hello, World!</h1>
     <form action="/addwork" method="post">
       <label for="description">Description:</label>
-      <input type="text" name="description" value="${work.description}" />
+      <input
+        id="description"
+        type="text"
+        name="description"
+        value="${work.description}"
+      />
       <label for="date">Date worked:</label>
       <input type="date" name="date" value="${work.date}" />
       <label for="hours">Hours worked:</label>

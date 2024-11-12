@@ -2,9 +2,12 @@
 <html>
   <head>
     <title>Work View</title>
+    <script>
+      window.history.replaceState(null, 'Delete', ${target})
+    </script>
   </head>
   <body>
-    <table>
+    <table id="worklist">
       <tr>
         <th>Description</th>
         <th>Date Worked</th>
@@ -13,7 +16,7 @@
       </tr>
       ${workList.map(work => `
       <tr>
-        <td><a href="/tasks/${work.workId}">${work.description}</a></td>
+        <td><a href="/worklog/${work.workId}">${work.description}</a></td>
         <td>${work.date}</td>
         <td>${work.hours}</td>
         <td>
@@ -23,6 +26,6 @@
       </tr>
       `).join('')}
     </table>
-    <a href="/addwork">Add Work</a>
+    <a id="addworklog" href="/addwork">Add Work</a>
   </body>
 </html>
