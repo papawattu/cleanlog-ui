@@ -8,12 +8,13 @@
   <body>
     <header>
       <h1>Work Log Tasks</h1>
+      <p>Tasks for ${work.description}</p>
     </header>
     <nav>
       <a href="/worklog/">Work Log</a>
     </nav>
     <main>
-      <section id="task-list">
+      <section id="task-list" data-id="${work.workId}">
         <h2>Tasks</h2>
         ${taskList.length == 0 ? `
         <p>No tasks found</p>
@@ -22,13 +23,13 @@
           ${taskList.map(task => `
           <li>
             <a href="/tasks/${task.taskId}">${task.description}</a>
-            <button class="edit" data-id="${task.taskId}">Edit</button>
-            <button class="delete" data-id="${task.taskId}">Delete</button>
+            <button id="edit" data-id="${task.taskId}">Edit</button>
+            <a id="delete" href="/tasks/delete/${task.taskId}">Delete</a>
           </li>
           `).join('')}
         </ul>
         `}
-        <a href="/addtask/${work.workId}">Add Task</a>
+        <a id="addtask" href="/addtask/${work.workId}">Add Task</a>
       </section>
     </main>
     <footer>

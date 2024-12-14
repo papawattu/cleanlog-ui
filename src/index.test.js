@@ -6,8 +6,7 @@ describe('CleanLog UI Tests', () => {
 
   beforeAll(async () => {
     browser = await puppeteer.launch({
-      headless: false,
-      //slowMo: 200,
+      headless: true,
       args: ['--start-maximized'],
     })
     page = await browser.newPage()
@@ -43,8 +42,7 @@ describe('CleanLog UI Tests', () => {
     const el = await page.evaluate(
       () => document.querySelector('table#worklist').innerHTML
     )
-    console.log(el)
-    //expect(text).toBe('Work Log')
+    expect(el).toBeTruthy()
   })
   test('should display add worklog', async () => {
     await page.waitForSelector('a#addworklog')
@@ -61,23 +59,48 @@ describe('CleanLog UI Tests', () => {
     await page.type('input[name="date"]', '10/11/2021')
 
     await page.click('input[type="submit"]')
-    await page.waitForSelector('table#worklist')
+    await page.waitForSelector('section#task-list')
 
-    const text = await page.evaluate(() =>
-      Array.from(document.querySelectorAll('td a')).find(
-        (el) => el.innerText === 'Test123'
-      )
+    const id = await page.evaluate(() =>
+      document.querySelector('section#task-list')
     )
 
-    expect(text).toBeTruthy()
+    expect(id).toBeTruthy()
+    // expect(text).toBeTruthy()
   })
-  test('should select worklog', async () => {
-    const text = await page.evaluate(() =>
-      Array.from(document.querySelectorAll('td a')).find(
-        (el) => el.innerText === 'Test123'
-      )
+  test('should add task', async () => {
+    await page.waitForSelector('a#addtask')
+
+    await page.click('a#addtask')
+    await page.waitForSelector('form')
+    await page.waitForSelector('input[name="taskName"]')
+
+    await page.type('input[name="taskName"]', 'Test123')
+
+    await page.type('input[name="description"]', 'Test123')
+
+    await page.click('button[type="submit"]')
+
+    await page.waitForSelector('section#task-list')
+
+    await page.waitForSelector('#task-list > ul > li > a')
+
+    const text = await page.evaluate(
+      () => document.querySelector('#task-list > ul > li > a').innerText
+    )
+    expect(text).toBe('Test123')
+  })
+  test('should delete task', async () => {
+    await page.waitForSelector('a#delete')
+
+    await page.click('a#delete')
+
+    await page.waitForSelector('#task-list > p')
+
+    const text = await page.evaluate(
+      () => document.querySelector('#task-list > p').innerText
     )
 
-    expect(text).toBeTruthy()
+    expect(text).toBe('No tasks found')
   })
 })

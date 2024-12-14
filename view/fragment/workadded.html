@@ -1,0 +1,20 @@
+<div class="lozenge">
+  <div id="month">
+    <button class="arrow-back"></button>
+    <h2>${date.month}</h2>
+    <button class="arrow-forward"></button>
+  </div>
+  <h3>Hi ${name.first}!</h3>
+  <p>Today is the ${date.day} of ${date.month}.</p>
+  <p>
+    You have worked
+    <span style="font-weight: 600; font-size: 1.5rem">${daysWorked}</span>
+    days this month.
+  </p>
+  <div class="actions">
+    <button hx-get="/views/fragments/addwork" hx-target=".lozenge">
+      Log a day
+    </button>
+    <button>Show days</button>
+  </div>
+</div>

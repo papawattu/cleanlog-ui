@@ -1,0 +1,29 @@
+<div id="addwork">
+  <form>
+    <div class="row">
+      <label for="date">Date worked:</label>
+      <input
+        type="date"
+        name="date"
+        value="${todaysDate}"
+        min="2023-01-01"
+        max="${todaysDate}"
+      />
+    </div>
+    <div class="row">
+      <label for="description">Notes:</label>
+      <input
+        id="description"
+        type="text"
+        name="description"
+        value="${work.description}"
+        placeholder="Need more washing up liquid"
+      />
+    </div>
+    <div class="row">
+      <button hx-post="/views/fragments/addwork" hx-target=".lozenge">
+        Add tasks
+      </button>
+    </div>
+  </form>
+</div>
