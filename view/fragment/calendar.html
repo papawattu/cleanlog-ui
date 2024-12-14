@@ -1,24 +1,7 @@
-<div id="calendar" class="container">
-  <h1>Calendar</h1>
-  <p>Keep track of your work schedule</p>
-  <div class="calendar-nav"></div>
-  <table>
+<div class="calendar-header">
+  <table id="calendar">
     <caption>
-      <button
-        id="prev-month"
-        hx-get="/view/calendar/${prev.year}/${prev.month}"
-        hx-target="#calendar"
-      >
-        Prev
-      </button>
-      <span id="current-month">${month} ${year}</span>
-      <button
-        id="next-month"
-        hx-get="/view/calendar/${next.year}/${next.month}"
-        hx-target="#calendar"
-      >
-        Next
-      </button>
+      ${ date.month } ${ date.year }
     </caption>
     <thead>
       <tr>
@@ -32,7 +15,14 @@
       </tr>
     </thead>
     <tbody>
-      ${calendarTable}
+      <tr>
+        ${ cal}
+      </tr>
     </tbody>
   </table>
+  <button
+    onclick="document.getElementsByClassName('modal')[0].style.display = 'block';document.addEventListener('click', function(event) {if (event.target == document.getElementsByClassName('modal')[0]) {document.getElementsByClassName('modal')[0].style.display = 'none';}});"
+  >
+    Add
+  </button>
 </div>

@@ -1,19 +1,23 @@
-const createCalendar = (year, month) => {
+const createCalendar = (year, month, selectedDates) => {
   let mon = month - 1 // months in JS are 0..11, not 1..12
   let d = new Date(year, mon)
 
   let table = ''
 
+  console.log(selectedDates)
   // spaces for the first row
   // from Monday till the first day of the month
   // * * * 1  2  3  4
   for (let i = 0; i < getDay(d); i++) {
-    table += '<td></td>'
+    table += '<td class="blank"></td>'
   }
 
   // <td> with actual dates
   while (d.getMonth() == mon) {
-    table += `<td id="day-${d.getDate()}">${d.getDate()}</td>`
+    console.log(d.getDate(), selectedDates.includes(d.getDate()))
+    table += `<td ${
+      selectedDates.includes(d.getDate()) ? 'class="selected"' : ''
+    } id="day-${d.getDate()}">${d.getDate()}</td>`
 
     if (getDay(d) % 7 == 6) {
       // sunday, last day of week - newline
@@ -27,7 +31,7 @@ const createCalendar = (year, month) => {
   // 29 30 31 * * * *
   if (getDay(d) != 0) {
     for (let i = getDay(d); i < 7; i++) {
-      table += '<td></td>'
+      table += '<td class="blank"></td>'
     }
   }
 

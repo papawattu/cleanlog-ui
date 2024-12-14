@@ -3,12 +3,14 @@ import { createCalendar } from '../../utils/calendar.js'
 export default (router) => {
   router.get('/view/worklog', (req, res) => {
     const currentDate = new Date()
+    const daysWorked = []
+    const amountPerDay = 30
     const data = {
       name: {
         first: 'Laura',
         last: 'Doe',
       },
-      daysWorked: 5,
+      daysWorked,
       date: {
         month: currentDate.toLocaleString('default', { month: 'long' }),
         day: `${currentDate.getDate()}${
@@ -22,8 +24,25 @@ export default (router) => {
         }`,
         year: currentDate.getFullYear(),
       },
+
+      amount: daysWorked.length * amountPerDay,
+
+      cal: createCalendar(
+        currentDate.getFullYear(),
+        currentDate.getMonth() + 1,
+        daysWorked
+      ),
     }
-    res.render('worklog', { locals: data })
+
+    console.log(data.cal)
+    res.render('main', {
+      locals: data,
+      partials: {
+        logo: 'fragment/logo',
+        calendar: 'fragment/calendar',
+        profile: 'fragment/profile',
+      },
+    })
   })
 
   router.get('/view/worklog/:yy/:mm/:dd', (req, res) => {
@@ -92,7 +111,11 @@ export default (router) => {
       locals: {
         month: date.toLocaleString('default', { month: 'long' }),
         year: date.getFullYear(),
-        calendarTable: createCalendar(date.getFullYear(), date.getMonth() + 1),
+        calendarTable: createCalendar(
+          date.getFullYear(),
+          date.getMonth() + 1,
+          1
+        ),
         next: {
           month: date.getMonth() === 11 ? 0 : date.getMonth() + 1,
           year:
