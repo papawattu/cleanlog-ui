@@ -1,9 +1,11 @@
+import { cli } from 'winston/lib/winston/config/index.js'
 import { createCalendar } from '../../utils/calendar.js'
 
 export default (router) => {
+  const daysWorked = []
   router.get('/view/worklog', (req, res) => {
     const currentDate = new Date()
-    const daysWorked = []
+
     const amountPerDay = 30
     const data = {
       name: {
@@ -32,15 +34,19 @@ export default (router) => {
         currentDate.getMonth() + 1,
         daysWorked
       ),
+      title: 'Log Work',
+      login_url: process.env.GOOGLE_REDIRECT_URI,
+      client_id: process.env.GOOGLE_CLIENT_ID,
     }
 
-    console.log(data.cal)
     res.render('main', {
       locals: data,
       partials: {
         logo: 'fragment/logo',
         calendar: 'fragment/calendar',
         profile: 'fragment/profile',
+        form: 'fragment/addwork',
+        modal: 'fragment/modal',
       },
     })
   })
@@ -73,7 +79,11 @@ export default (router) => {
       locals: { work: { description: '' }, todaysDate },
     })
   })
-  router.post('/view/fragments/addwork', (req, res) => {
+  router.post('/addwork', (req, res) => {
+    const d = new Date(req.body.date)
+
+    daysWorked.push(d.getDate(d))
+    console.log(daysWorked)
     res.render('fragment/addtasks', { locals: req.body })
   })
   router.get('/view/calendar', (req, res) => {

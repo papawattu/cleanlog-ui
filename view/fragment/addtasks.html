@@ -1,9 +1,23 @@
 <div>
-  <div>Washed up</div>
-  <div>Washed clothes</div>
-  <div>Hoovered</div>
-  <div>Changed bed</div>
-  <div>Watered plants</div>
-  <div>Other</div>
-  <button>Done</button>
+  <div class="formrow">
+    <label for="task1">Washed up</label><input type="checkbox" name="task1" />
+  </div>
+  <div>
+    <label for="task2">Washed clothes</label
+    ><input type="checkbox" name="task2" />
+  </div>
+  <div>
+    <label for="task3">Hoovered</label><input type="checkbox" name="task3" />
+  </div>
+  <div>
+    <label for="task4">Changed bed</label><input type="checkbox" name="task4" />
+  </div>
+  <div>
+    <label for="task5">Other</label><input type="checkbox" name="task5" />
+  </div>
+  <button
+    onclick="document.getElementsByClassName('modal')[0].style.display='none'"
+  >
+    Done
+  </button>
 </div>

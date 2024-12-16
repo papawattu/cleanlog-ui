@@ -195,13 +195,14 @@ table caption {
   color: var(--light-color);
   padding: 1rem 2rem;
   border-radius: 0.5rem;
-  width: 90%;
+  max-width: 50rem;
 }
 .close {
   color: var(--light-color);
   float: right;
   font-size: 2rem;
   font-weight: 900;
+  cursor: pointer;
 }
 
 form {
