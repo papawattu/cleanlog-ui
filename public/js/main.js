@@ -1,7 +1,7 @@
 import PocketBase from '/js/pocketbase.es.mjs'
 import { createCalendar } from '/js/calendar.js'
 
-const pb = new PocketBase(process.env.POCKETBASE_API_URL)
+const pb = new PocketBase()
 
 let user = null
 
