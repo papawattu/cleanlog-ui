@@ -6,6 +6,8 @@ name: Node.js CI
 on:
   push:
     branches: ['main']
+    tags:
+      - "v*.*.*"
   pull_request:
     branches: ['main']
 env:
@@ -60,7 +62,7 @@ jobs:
           tags: |
             latest
             type=sha,format=short,prefix=
-      #            type=semver,pattern={{version}}
+            type=semver,pattern={{version}}
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
 
