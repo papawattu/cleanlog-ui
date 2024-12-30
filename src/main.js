@@ -4,7 +4,7 @@ import mainView from './views/mainView'
 import { displayCalendar } from './views/fragments/calendar'
 import auth from './auth/auth'
 
-const pb = new PocketBase('http://localhost:8090/')
+const pb = new PocketBase()
 
 document.addEventListener('DOMContentLoaded', async function () {
   //console.log('loaded')
