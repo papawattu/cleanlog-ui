@@ -4,7 +4,6 @@ const createCalendar = (year, month, selectedDates) => {
 
   let table = ''
 
-  console.log(selectedDates)
   // spaces for the first row
   // from Monday till the first day of the month
   // * * * 1  2  3  4
@@ -14,7 +13,6 @@ const createCalendar = (year, month, selectedDates) => {
 
   // <td> with actual dates
   while (d.getMonth() == mon) {
-    console.log(d.getDate(), selectedDates.includes(d.getDate()))
     table += `<td ${
       selectedDates.includes(d.getDate()) ? 'class="selected"' : ''
     } id="day-${d.getDate()}">${d.getDate()}</td>`
