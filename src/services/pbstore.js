@@ -26,10 +26,10 @@ export default ({ entity, pb = new PocketBase() }) => {
           })
       })
     },
-    readAll: () => {
+    readAll: (filter) => {
       return new Promise((resolve, reject) => {
         pb.collection(entity)
-          .getFullList()
+          .getFullList({ filter })
           .then((data) => {
             resolve(data)
           })
@@ -61,6 +61,17 @@ export default ({ entity, pb = new PocketBase() }) => {
             reject(error)
           })
       })
+    },
+    registerChangeListener: (callback) => {
+      pb.collection(entity).subscribe(
+        '*',
+        function (e) {
+          callback(e)
+        },
+        {
+          /* other options like expand, custom headers, etc. */
+        }
+      )
     },
   }
 }

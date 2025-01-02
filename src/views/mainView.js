@@ -3,7 +3,7 @@ import logo from './fragments/logo'
 import profile from './fragments/profile'
 import { calendarFragment } from './fragments/calendar'
 
-export default ({ name, avatar, id }, pb) => html`<div
+export default ({ avatar, name }) => html`<div
   id="container"
   class="container box"
 >

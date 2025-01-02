@@ -2,28 +2,32 @@ import PocketBase from 'pocketbase'
 import { render } from 'lit-html'
 import mainView from './views/mainView'
 import { displayCalendar } from './views/fragments/calendar'
-import auth from './auth/auth'
-
-const pb = new PocketBase()
+import AuthService from './auth/auth'
+import PBStore from './services/pbstore'
+import WorkLogService from './services/workLog'
 
 document.addEventListener('DOMContentLoaded', async function () {
-  //console.log('loaded')
-  const { getUser } = auth({ pb })
+  const pb = new PocketBase()
 
-  const user = await getUser()
-  console.log(JSON.stringify(user))
-  render(mainView(user, pb), document.getElementById('root'))
+  const store = PBStore({ entity: 'worklog', pb })
+
+  const authService = AuthService({ pb })
+
+  await authService.loginUser()
+
+  const { id, avatar, name } = await authService.getUser()
+
+  const workLogService = WorkLogService({
+    store,
+    user: id,
+  })
   const currentDate = new Date()
 
-  await pb.collection('worklog').subscribe(
-    '*',
-    function (e) {
-      console.log('event', e)
-      displayCalendar({ currentDate, id: user.id, pb })
-    },
-    {
-      /* other options like expand, custom headers, etc. */
-    }
-  )
-  displayCalendar({ currentDate, id: user.id, pb })
+  render(mainView({ avatar, name }), document.getElementById('root'))
+
+  workLogService.registerChangeListener((e) => {
+    displayCalendar({ currentDate, authService, workLogService })
+  })
+
+  displayCalendar({ currentDate, authService, workLogService })
 })

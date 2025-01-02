@@ -22,7 +22,7 @@ export default {
     chokidar: {
       usePolling: true,
     },
-    include: 'src/**',
+    include: ['src/**', 'public/**'],
   },
   plugins: [
     litHtml({ include: './view/**/*.html' }),
