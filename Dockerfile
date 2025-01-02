@@ -13,27 +13,8 @@ COPY . .
 
 RUN npm run rollup
 
-FROM alpine:latest AS runtime
+FROM nginx:alpine AS runtime
 
-ARG PB_VERSION=0.23.12
+COPY --from=build /usr/src/app/pb_public /usr/share/nginx/html
 
-RUN apk add --no-cache \
-    unzip \
-    ca-certificates
-
-# download and unzip PocketBase
-ADD https://github.com/pocketbase/pocketbase/releases/download/v${PB_VERSION}/pocketbase_${PB_VERSION}_linux_amd64.zip /tmp/pb.zip
-RUN unzip /tmp/pb.zip -d /pb/
-
-# uncomment to copy the local pb_migrations dir into the image
-# COPY ./pb_migrations /pb/pb_migrations
-
-# uncomment to copy the local pb_hooks dir into the image
-# COPY ./pb_hooks /pb/pb_hooks
-
-COPY --from=build /usr/src/app/pb_public /pb/pb_public
-
-EXPOSE 3000
-
-# start PocketBase
-CMD ["/pb/pocketbase", "serve", "--http=0.0.0.0:3000"]
+EXPOSE 80
