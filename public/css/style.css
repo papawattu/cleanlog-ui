@@ -347,6 +347,7 @@ dialog {
     display: flex;
     flex-direction: column;
     width: 100%;
+    padding-top: 20rem;
   }
   form {
     flex: 1;
@@ -382,7 +383,16 @@ dialog {
     padding: 0.5rem;
   }
   .default-button {
-    padding: 0.5rem 0.5rem;
+    padding: 2rem 1rem;
     font-size: larger;
+  }
+
+  button[type='submit'] {
+    padding: 2rem 1rem;
+    width: 100%;
+    border: 5px solid var(--light-color);
+    background-color: var(--light-color);
+    color: var(--dark-color);
+    font-weight: 900;
   }
 }
