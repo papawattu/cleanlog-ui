@@ -1,10 +1,10 @@
 import PocketBase from 'pocketbase'
-import { render } from 'lit-html'
-import mainView from './views/mainView'
-import { displayCalendar } from './views/fragments/calendar'
+import { renderMonthlyCalendarFragment } from './views/fragments/calendar'
 import AuthService from './auth/auth'
 import PBStore from './services/pbstore'
 import WorkLogService from './services/workLog'
+import { createState } from './utils/state'
+import { RenderRoot } from './views/renderRoot'
 
 document.addEventListener('DOMContentLoaded', async function () {
   const pb = new PocketBase()
@@ -21,13 +21,24 @@ document.addEventListener('DOMContentLoaded', async function () {
     store,
     user: id,
   })
-  const currentDate = new Date()
 
-  render(mainView({ avatar, name }), document.getElementById('root'))
+  const state = createState({ initialProps: { avatar, name } })
+
+  state.setProps({ currentDate: new Date() })
+
+  RenderRoot({ props: state.getProps() })
 
   workLogService.registerChangeListener((e) => {
-    displayCalendar({ currentDate, authService, workLogService })
+    renderMonthlyCalendarFragment({
+      state,
+      authService,
+      workLogService,
+    })
   })
 
-  displayCalendar({ currentDate, authService, workLogService })
+  renderMonthlyCalendarFragment({
+    state,
+    authService,
+    workLogService,
+  })
 })

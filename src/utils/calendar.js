@@ -1,4 +1,4 @@
-const createCalendar = (year, month, selectedDates) => {
+const createCalendar = (year, month, selectedDates, maxDate = new Date()) => {
   let mon = month - 1 // months in JS are 0..11, not 1..12
   let d = new Date(year, mon)
 
@@ -13,8 +13,11 @@ const createCalendar = (year, month, selectedDates) => {
 
   // <td> with actual dates
   while (d.getMonth() == mon) {
+    let classNames = selectedDates.includes(d.getDate()) ? 'selected' : ''
+    classNames += d > maxDate ? ' disabled' : ''
+    classNames += d.toDateString() === new Date().toDateString() ? ' today' : ''
     table += `<td ${
-      selectedDates.includes(d.getDate()) ? 'class="selected"' : ''
+      classNames ? 'class="' + classNames + '"' : ''
     } id="day-${d.getDate()}">${d.getDate()}</td>`
 
     if (getDay(d) % 7 == 6) {

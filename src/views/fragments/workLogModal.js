@@ -1,25 +1,39 @@
 import { html, render } from 'lit-html'
-import pbstore from '../../services/pbstore'
-import workLogService from '../../services/workLog'
-import auth from '../../auth/auth'
+
+const formatDate = (date) =>
+  date.getFullYear() +
+  '-' +
+  ('0' + (date.getMonth() + 1)).slice(-2) +
+  '-' +
+  ('0' + date.getDate()).slice(-2)
 
 export default async function ({ createWorkLog }) {
-  const dialog = ({ date }) => html`<dialog open class="modal-content">
-    <form id="addDayForm">
-      <label for="day">Day</label>
-      <input
-        type="date"
-        name="day"
-        id="day"
-        value="${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}"
-        required
-      />
-      <label for="amount">Amount</label>
-      <input type="number" name="amount" id="amount" required />
-      <button type="submit">Add</button>
-    </form>
-    <button id="close">Close</button>
-  </dialog>`
+  const dialog = ({ date, maxDate = new Date() }) =>
+    html`<dialog open class="modal-content">
+      <form id="addDayForm">
+        <label for="day">Day</label>
+        <input
+          type="date"
+          name="day"
+          id="day"
+          value="${formatDate(date)}"
+          max="${formatDate(maxDate)}"
+          placeholder="enter date"
+          required
+        />
+        <label for="amount">Amount</label>
+        <input
+          type="number"
+          name="amount"
+          id="amount"
+          value=""
+          placeholder="enter amount"
+          required
+        />
+        <button type="submit" class="default-button">Add</button>
+      </form>
+      <button id="close" class="default-button">Close</button>
+    </dialog>`
 
   return {
     addDayModal: ({ date }) => {

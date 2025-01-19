@@ -6,7 +6,6 @@ export default ({ entity = new Map(), currentId = 0 } = {}) => ({
     }),
   read: (key) => new Promise((resolve, reject) => resolve(entity.get(key))),
   readAll: () => {
-    console.log(entity)
     return new Promise((resolve, reject) => resolve([...entity.values()]))
   },
   update: (key, value) => {
