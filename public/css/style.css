@@ -343,12 +343,12 @@ dialog {
   .modal-content label {
     display: none;
   }
-  dialog {
+  /* dialog {
     display: flex;
     flex-direction: column;
     width: 100%;
     padding-top: 20rem;
-  }
+  } */
   form {
     flex: 1;
     flex-direction: column;
@@ -383,14 +383,15 @@ dialog {
     padding: 0.5rem;
   }
   .default-button {
-    padding: 2rem 1rem;
+    padding-block: 1.75rem;
     font-size: larger;
+    width: 100%;
+    margin: auto;
   }
 
   button[type='submit'] {
-    padding: 2rem 1rem;
+    padding-block: 1.75rem;
     width: 100%;
-    border: 5px solid var(--light-color);
     background-color: var(--light-color);
     color: var(--dark-color);
     font-weight: 900;
