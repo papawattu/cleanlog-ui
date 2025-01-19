@@ -326,6 +326,7 @@ dialog {
     flex-direction: column;
     justify-content: space-between;
     padding: 0 0.5rem;
+    font-size: larger;
   }
   .footer {
     min-height: 1rem;
@@ -341,5 +342,47 @@ dialog {
   }
   .modal-content label {
     display: none;
+  }
+  dialog {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+  form {
+    flex: 1;
+    flex-direction: column;
+  }
+  caption {
+    min-width: none;
+  }
+  table {
+    width: auto;
+  }
+  table.calendar {
+    width: 100%;
+    padding: 0.25rem;
+    margin: 0.25rem;
+  }
+  td {
+    padding: 0.25rem;
+    
+  }
+  .calendar-header {
+    padding: 0.5rem;
+    overflow: hidden;
+    border: none;
+  }
+  input, select {
+    width: 100%;
+    padding-block: 1.75rem;
+    font-size: larger;
+  }
+  .calendar-nav {
+    font-size: larger;
+    padding: 0.5rem;
+  }
+  .default-button {
+    padding: 0.5rem 0.5rem;
+    font-size: larger;
   }
 }
