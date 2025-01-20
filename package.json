@@ -12,8 +12,8 @@
     ]
   },
   "scripts": {
-    "start": "node src/index.js",
-    "watch": "NODE_ENV=test node --watch-path ./src --watch-path ./public src/index.js",
+    "start": "npx rollup -c & pocketbase serve",
+    "watch": "pocketbase serve & npx rollup -c --watch",
     "tailwind-watch": "npx tailwindcss -i src/input.css -o ./public/css/output.css -w",
     "test": "NODE_OPTIONS=--experimental-vm-modules npx jest",
     "test:watch": "NODE_OPTIONS=--experimental-vm-modules npx jest --watch",

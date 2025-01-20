@@ -1,6 +1,53 @@
 import { html } from 'lit-html'
-import { createCalendar } from '../../utils/calendar'
 import workLogModal from './workLogModal'
+
+const createCalendar = (year, month, selectedDates, maxDate = new Date()) => {
+  let mon = month - 1 // months in JS are 0..11, not 1..12
+  let d = new Date(year, mon)
+
+  let table = ''
+
+  // spaces for the first row
+  // from Monday till the first day of the month
+  // * * * 1  2  3  4
+  for (let i = 0; i < getDay(d); i++) {
+    table += '<td class="blank"></td>'
+  }
+
+  // <td> with actual dates
+  while (d.getMonth() == mon) {
+    let classNames = selectedDates.includes(d.getDate()) ? 'selected' : ''
+    classNames += d > maxDate ? ' disabled' : ''
+    classNames += d.toDateString() === new Date().toDateString() ? ' today' : ''
+    table += `<td ${
+      classNames ? 'class="' + classNames + '"' : ''
+    } id="day-${d.getDate()}">${d.getDate()}</td>`
+
+    if (getDay(d) % 7 == 6) {
+      // sunday, last day of week - newline
+      table += '</tr><tr>'
+    }
+
+    d.setDate(d.getDate() + 1)
+  }
+
+  // add spaces after last days of month for the last row
+  // 29 30 31 * * * *
+  if (getDay(d) != 0) {
+    for (let i = getDay(d); i < 7; i++) {
+      table += '<td class="blank"></td>'
+    }
+  }
+
+  return table
+}
+
+const getDay = (date) => {
+  // get day number from 0 (monday) to 6 (sunday)
+  let day = date.getDay()
+  if (day == 0) day = 7 // make Sunday (0) the last day
+  return day - 1
+}
 
 export async function calendar({ getWorkLogs, id, date }) {
   document.querySelector('#month').innerHTML = date.toLocaleString('default', {
@@ -20,6 +67,19 @@ export async function calendar({ getWorkLogs, id, date }) {
   calendar.innerHTML = createCalendar(year, month, selectedDates)
 }
 
+function addClickListeners({ date, authService, createWorkLog }) {
+  for (let i = 1; i < 32; i++) {
+    document
+      .getElementById(`day-${i}`)
+      .addEventListener('click', async (ev) => {
+        const { addDayModal } = await workLogModal({ createWorkLog })
+
+        date.setDate(i)
+        if (date > new Date()) return
+        addDayModal({ date, authService })
+      })
+  }
+}
 export async function renderMonthlyCalendarFragment({
   authService,
   state,
@@ -33,33 +93,27 @@ export async function renderMonthlyCalendarFragment({
     id: (await authService.getUser()).id,
   })
 
-  for (let i = 1; i < 32; i++) {
-    document
-      .getElementById(`day-${i}`)
-      .addEventListener('click', async (ev) => {
-        const { addDayModal } = await workLogModal({ createWorkLog })
-        const date = new Date(currentDate)
-        date.setDate(i)
-        addDayModal({ date, authService })
-      })
-  }
+  addClickListeners({ date: currentDate, authService, createWorkLog })
+
   document.getElementById('prev').addEventListener('click', async () => {
     currentDate.setMonth(currentDate.getMonth() - 1)
     state.setProps({ currentDate })
-    calendar({
+    await calendar({
       date: currentDate,
       getWorkLogs,
       id: (await authService.getUser()).id,
     })
+    addClickListeners({ date: currentDate, authService, createWorkLog })
   })
   document.getElementById('next').addEventListener('click', async () => {
     currentDate.setMonth(currentDate.getMonth() + 1)
     state.setProps({ currentDate })
-    calendar({
+    await calendar({
       date: currentDate,
       getWorkLogs,
       id: (await authService.getUser()).id,
     })
+    addClickListeners({ date: currentDate, authService, createWorkLog })
   })
 }
 

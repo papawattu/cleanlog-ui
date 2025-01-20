@@ -28,6 +28,7 @@ yarn-error.log
 # Logs
 logs/
 *.log
+*.out
 
 # OS generated files
 .DS_Store
