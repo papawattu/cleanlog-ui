@@ -20,23 +20,16 @@ export default ({ avatar, name }) => html`<div
     <main class="main">
       <h2>Welcome <span id="firstname">${name}</span></h2>
       <p>
-        Lorem, ipsum dolor sit amet consectetur adipisicing elit. Officia ipsa
-        repellat debitis odit est aliquam! Repellendus modi odit excepturi
-        perspiciatis aliquid ad quod provident similique vel nesciunt. Doloribus
-        in soluta blanditiis perferendis minima id tempore nesciunt. Fugit culpa
-        fuga quibusdam, deleniti maiores ducimus doloribus in facere enim
-        veritatis tempora eius odit hic, numquam nihil rem magni rerum, veniam
-        iure ex! Inventore dignissimos ducimus quod asperiores doloremque culpa
-        ipsum voluptates illum officiis voluptatum iure nemo vitae sequi, hic
-        provident maxime amet aut. Error, facilis voluptates. Et facere adipisci
-        deserunt voluptate animi eos. Vel modi adipisci provident quae laborum,
-        voluptate ipsa illo.
+        Cleaning Diary is a web application designed to help users log and track
+        their cleaning activities. The application provides a monthly calendar
+        view where users can add, view, and manage their cleaning logs.
       </p>
       <div class="tasks"></div>
       <!-- end of main -->
       <div class="amount">
         <svg
           width="80px"
+          ,
           height="80px"
           viewBox="0 0 24 24"
           fill="none"

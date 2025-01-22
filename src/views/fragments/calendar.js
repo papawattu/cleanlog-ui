@@ -1,13 +1,17 @@
 import { html } from 'lit-html'
 import workLogModal from './workLogModal'
 
+const getNumberOfDaysInMonth = (date) => {
+  return new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate()
+}
+
 const createCalendar = (year, month, selectedDates, maxDate = new Date()) => {
   let mon = month - 1 // months in JS are 0..11, not 1..12
   let d = new Date(year, mon)
 
   let table = ''
 
-  // spaces for the first row
+  // spaces for the first rowviewDayModal
   // from Monday till the first day of the month
   // * * * 1  2  3  4
   for (let i = 0; i < getDay(d); i++) {
@@ -59,31 +63,52 @@ export async function calendar({ getWorkLogs, id, date }) {
   calendar.innerHTML = ''
   const year = date.getFullYear()
   const month = date.getMonth() + 1
-  const selectedDates = await getWorkLogs(`user = "${id}"`).then((data) => {
-    return data
+  const selectedDates = await getWorkLogs(`user = "${id}"`).then((data) =>
+    data
       .filter((item) => new Date(item.date).getMonth() === date.getMonth())
       .map((item) => new Date(item.date).getDate())
-  })
+  )
   calendar.innerHTML = createCalendar(year, month, selectedDates)
 }
 
-function addClickListeners({ date, authService, createWorkLog }) {
-  for (let i = 1; i < 32; i++) {
+function addClickListeners({
+  date,
+  authService,
+  createWorkLog,
+  deleteWorkLog,
+  state,
+}) {
+  for (let i = 1; i <= getNumberOfDaysInMonth(date); i++) {
     document
       .getElementById(`day-${i}`)
       .addEventListener('click', async (ev) => {
-        const { addDayModal } = await workLogModal({ createWorkLog })
+        const { currentDate } = state.getProps()
+        currentDate.setDate(i)
 
-        date.setDate(i)
-        if (date > new Date()) return
-        addDayModal({ date, authService })
+        const { addDayModal, viewDayModal } = await workLogModal({
+          createWorkLog,
+          deleteWorkLog,
+        })
+
+        if (currentDate > new Date()) return
+        const worklog = state
+          .getProps()
+          .workLogs.find((item) => new Date(item.date).getDate() === i)
+        if (worklog) {
+          viewDayModal({ date: currentDate, amount: worklog.hours })
+        } else {
+          addDayModal({
+            date: currentDate,
+            authService,
+          })
+        }
       })
   }
 }
 export async function renderMonthlyCalendarFragment({
   authService,
   state,
-  workLogService: { createWorkLog, getWorkLogs },
+  workLogService: { createWorkLog, getWorkLogs, deleteWorkLog },
 }) {
   const { currentDate } = state.getProps()
 
@@ -93,7 +118,17 @@ export async function renderMonthlyCalendarFragment({
     id: (await authService.getUser()).id,
   })
 
-  addClickListeners({ date: currentDate, authService, createWorkLog })
+  state.setProps({
+    workLogs: await getWorkLogs(`user = "${(await authService.getUser()).id}"`),
+  })
+
+  addClickListeners({
+    date: currentDate,
+    authService,
+    createWorkLog,
+    deleteWorkLog,
+    state,
+  })
 
   document.getElementById('prev').addEventListener('click', async () => {
     currentDate.setMonth(currentDate.getMonth() - 1)
@@ -103,7 +138,13 @@ export async function renderMonthlyCalendarFragment({
       getWorkLogs,
       id: (await authService.getUser()).id,
     })
-    addClickListeners({ date: currentDate, authService, createWorkLog })
+    addClickListeners({
+      date: currentDate,
+      authService,
+      createWorkLog,
+      deleteWorkLog,
+      state,
+    })
   })
   document.getElementById('next').addEventListener('click', async () => {
     currentDate.setMonth(currentDate.getMonth() + 1)
@@ -113,13 +154,19 @@ export async function renderMonthlyCalendarFragment({
       getWorkLogs,
       id: (await authService.getUser()).id,
     })
-    addClickListeners({ date: currentDate, authService, createWorkLog })
+    addClickListeners({
+      date: currentDate,
+      authService,
+      createWorkLog,
+      deleteWorkLog,
+      state,
+    })
   })
 }
 
 const arrow = () => html`<svg
-  width="1.75rem"
-  height="1.75rem"
+  width="3rem"
+  height="3rem"
   viewBox="0 0 512 512"
   version="1.1"
 >

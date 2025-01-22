@@ -7,9 +7,9 @@ const formatDate = (date) =>
   '-' +
   ('0' + date.getDate()).slice(-2)
 
-export default async function ({ createWorkLog }) {
-  const dialog = ({ date, maxDate = new Date() }) =>
-    html`<dialog open class="modal-content">
+export default async function ({ createWorkLog, deleteWorkLog }) {
+  const addDayDialog = ({ date, maxDate = new Date() }) =>
+    html`<dialog open class="modal-content" id="addDayDialog">
       <form id="addDayForm">
         <label for="day">Day</label>
         <input
@@ -34,19 +34,59 @@ export default async function ({ createWorkLog }) {
       </form>
       <button id="close" class="default-button">Close</button>
     </dialog>`
+  const viewDayModalDialog = ({ date, amount = 0 }) =>
+    html`<dialog open class="modal-content" id="viewDayDialog">
+      <h2>Work details</h2>
+      <p>
+        Date ${date.toLocaleDateString({ month: 'long' })}
+        <span>Amount of hours: ${amount}</span>
+      </p>
+      <button id="delete" class="default-button">Delete</button>
+      <button id="close" class="default-button">Close</button>
+    </dialog>`
 
   return {
-    addDayModal: ({ date }) => {
+    viewDayModal: ({ date, amount }) => {
       const root = document.querySelector('#modal')
-
       if (!document.querySelector('dialog')) {
-        render(dialog({ date }), root)
+        render(viewDayModalDialog({ date, amount }), root)
         document.querySelector('#container').classList.toggle('blur')
         document.querySelector('#close').addEventListener('click', () => {
           const dialog = document.querySelector('dialog')
           document.querySelector('#container').classList.toggle('blur')
 
           dialog.close()
+          render('', root)
+        })
+        document
+          .querySelector('#delete')
+          .addEventListener('click', async () => {
+            const dialog = document.querySelector('dialog')
+            document.querySelector('#container').classList.toggle('blur')
+            await deleteWorkLog({ date })
+            dialog.close()
+            render('', root)
+          })
+      } else {
+        document.querySelector('#container').classList.toggle('blur')
+        const dialog = document.querySelector('dialog')
+        const day = document.querySelector('#day')
+        //day.value = formatDate(date)
+
+        dialog.show()
+      }
+    },
+    addDayModal: ({ date }) => {
+      const root = document.querySelector('#modal')
+      if (!document.querySelector('dialog')) {
+        render(addDayDialog({ date }), root)
+        document.querySelector('#container').classList.toggle('blur')
+        document.querySelector('#close').addEventListener('click', () => {
+          const dialog = document.querySelector('dialog')
+          document.querySelector('#container').classList.toggle('blur')
+
+          dialog.close()
+          render('', root)
         })
         document
           .querySelector('#addDayForm')
@@ -61,12 +101,16 @@ export default async function ({ createWorkLog }) {
               const dialog = document.querySelector('dialog')
               document.querySelector('#container').classList.toggle('blur')
               dialog.close()
+              render('', root)
               //displayCalendar(new Date(day), id)
             })
           })
       } else {
         document.querySelector('#container').classList.toggle('blur')
         const dialog = document.querySelector('dialog')
+        //const day = document.querySelector('#day')
+        //day.value = formatDate(date)
+
         dialog.show()
       }
     },
