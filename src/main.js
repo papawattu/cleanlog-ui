@@ -1,5 +1,5 @@
 import PocketBase from 'pocketbase'
-import { renderMonthlyCalendarFragment } from './views/fragments/calendar'
+import { monthlyCalendarFragment } from './views/fragments/calendar'
 import AuthService from './auth/auth'
 import PBStore from './services/pbstore'
 import WorkLogService from './services/workLog'
@@ -28,17 +28,15 @@ document.addEventListener('DOMContentLoaded', async function () {
 
   RenderRoot({ props: state.getProps() })
 
-  workLogService.registerChangeListener((e) => {
-    renderMonthlyCalendarFragment({
-      state,
-      authService,
-      workLogService,
-    })
-  })
-
-  renderMonthlyCalendarFragment({
+  const { render, nextPrevListener } = await monthlyCalendarFragment({
     state,
     authService,
     workLogService,
   })
+  workLogService.registerChangeListener((e) => {
+    render()
+  })
+
+  render()
+  nextPrevListener()
 })

@@ -105,65 +105,98 @@ function addClickListeners({
       })
   }
 }
-export async function renderMonthlyCalendarFragment({
+export async function monthlyCalendarFragment({
   authService,
   state,
   workLogService: { createWorkLog, getWorkLogs, deleteWorkLog },
 }) {
-  const { currentDate } = state.getProps()
+  let prevListener = null
+  let nextListener = null
+  return {
+    render: async () => {
+      const { currentDate, selectedMonth } = state.getProps()
 
-  await calendar({
-    date: currentDate,
-    getWorkLogs,
-    id: (await authService.getUser()).id,
-  })
+      await calendar({
+        date: selectedMonth || currentDate,
+        getWorkLogs,
+        id: (await authService.getUser()).id,
+      })
 
-  state.setProps({
-    workLogs: await getWorkLogs(`user = "${(await authService.getUser()).id}"`),
-  })
+      state.setProps({
+        workLogs: await getWorkLogs(
+          `user = "${(await authService.getUser()).id}"`
+        ),
+        selectedMonth: selectedMonth || currentDate,
+      })
 
-  addClickListeners({
-    date: currentDate,
-    authService,
-    createWorkLog,
-    deleteWorkLog,
-    state,
-  })
-
-  document.getElementById('prev').addEventListener('click', async () => {
-    currentDate.setMonth(currentDate.getMonth() - 1)
-    state.setProps({ currentDate })
-    await calendar({
-      date: currentDate,
-      getWorkLogs,
-      id: (await authService.getUser()).id,
-    })
-    addClickListeners({
-      date: currentDate,
-      authService,
-      createWorkLog,
-      deleteWorkLog,
-      state,
-    })
-  })
-  document.getElementById('next').addEventListener('click', async () => {
-    currentDate.setMonth(currentDate.getMonth() + 1)
-    state.setProps({ currentDate })
-    await calendar({
-      date: currentDate,
-      getWorkLogs,
-      id: (await authService.getUser()).id,
-    })
-    addClickListeners({
-      date: currentDate,
-      authService,
-      createWorkLog,
-      deleteWorkLog,
-      state,
-    })
-  })
+      addClickListeners({
+        date: currentDate,
+        authService,
+        createWorkLog,
+        deleteWorkLog,
+        state,
+      })
+    },
+    nextPrevListener: () => {
+      if (prevListener) {
+        document
+          .getElementById('prev')
+          .removeEventListener('click', prevListener)
+        console.log('removed prev listener')
+      } else {
+        console.log('added prev listener')
+        prevListener = document
+          .getElementById('prev')
+          .addEventListener('click', async () => {
+            const date =
+              state.getProps().selectedMonth || state.getProps().currentDate
+            date.setMonth(date.getMonth() - 1)
+            state.setProps({ selectedMonth: date })
+            await calendar({
+              date,
+              getWorkLogs,
+              id: (await authService.getUser()).id,
+            })
+            addClickListeners({
+              date,
+              authService,
+              createWorkLog,
+              deleteWorkLog,
+              state,
+            })
+          })
+      }
+      if (nextListener) {
+        document
+          .getElementById('next')
+          .removeEventListener('click', nextListener)
+        console.log('removed next listener')
+      } else {
+        console.log('added next listener')
+        nextListener = document
+          .getElementById('next')
+          .addEventListener('click', async () => {
+            const date =
+              state.getProps().selectedMonth || state.getProps().currentDate
+            date.setMonth(date.getMonth() + 1)
+            state.setProps({ selectedMonth: date })
+            await calendar({
+              date,
+              getWorkLogs,
+              id: (await authService.getUser()).id,
+            })
+            addClickListeners({
+              date,
+              authService,
+              createWorkLog,
+              deleteWorkLog,
+              state,
+            })
+          })
+      }
+    },
+  }
 }
-
 const arrow = () => html`<svg
   width="3rem"
   height="3rem"

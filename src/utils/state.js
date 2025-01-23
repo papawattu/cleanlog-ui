@@ -8,7 +8,7 @@ export function createState({ initialProps }) {
       console.log('current state.props', JSON.stringify(state.props))
 
       state.props = { ...state.props, ...newProps }
-      console.log('new state.props', JSON.stringify(state.props))
+      console.log('selected month', JSON.stringify(state.props?.selectedMonth))
       //RenderRoot({ props: state.props })
     },
     getProps: () => state.props,
