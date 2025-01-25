@@ -7,7 +7,7 @@ on:
   push:
     branches: ['main']
     tags:
-      - "v*.*.*"
+      - 'v*.*.*'
   pull_request:
     branches: ['main']
 env:
@@ -19,25 +19,6 @@ env:
   GOOGLE_REDIRECT_URI: https://cleanlog.wattu.com/api/oauth2-redirect
   POCKETBASE_API_URL: https://cleanlog.wattu.com/api
 jobs:
-  # build:
-  #   runs-on: ubuntu-latest
-
-  #   strategy:
-  #     matrix:
-  #       node-version: [22.x]
-  #       # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
-
-  #   steps:
-  #     - uses: actions/checkout@v4
-  #     - name: Use Node.js ${{ matrix.node-version }}
-  #       uses: actions/setup-node@v4
-  #       with:
-  #         node-version: ${{ matrix.node-version }}
-  #         cache: 'npm'
-  #     - run: npm ci
-  #     - run: npm run build --if-present
-  #     - run: npm test
-
   build-and-push-image:
     runs-on: ubuntu-latest
     permissions:
@@ -77,3 +58,10 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+      - name: Dispatch event to acceptance tests
+        run: |
+          curl -X POST \
+            -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+            -H "Accept: application/vnd.github.v3+json" \
+            https://api.github.com/repos/papawattu/cleanlog-acceptance/dispatches \
+            -d '{"event_type":"cleanlog-ui-build-completed"}'
