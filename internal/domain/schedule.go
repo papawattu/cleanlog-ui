@@ -1,11 +1,19 @@
 package domain
 
-import "fmt"
+import (
+	"fmt"
+
+	"github.com/google/uuid"
+)
 
 type Schedule struct {
 	ID     string
 	TaskID string
 	Date   string
+}
+
+func (s *Schedule) GenerateID() {
+	s.ID = uuid.New().String()
 }
 
 func (s *Schedule) Validate() error {

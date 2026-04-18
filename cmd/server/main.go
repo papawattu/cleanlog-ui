@@ -23,6 +23,7 @@ func main() {
 
 	userRepo := sqlite.NewUserRepository(db)
 	taskRepo := sqlite.NewTaskRepository(db)
+	scheduleRepo := sqlite.NewScheduleRepository(db)
 
 	registerUseCase := usecase.NewRegisterUserUseCase(userRepo)
 	loginUseCase := usecase.NewLoginUseCase(userRepo)
@@ -30,10 +31,13 @@ func main() {
 	completeTaskUseCase := usecase.NewCompleteTaskUseCase(taskRepo)
 	getOwnerTasksUseCase := usecase.NewGetOwnerTasksUseCase(taskRepo)
 	createTaskUseCase := usecase.NewCreateTaskUseCase(taskRepo)
+	assignTaskUseCase := usecase.NewAssignTaskUseCase(taskRepo)
+	createScheduleUseCase := usecase.NewCreateScheduleUseCase(scheduleRepo)
 
 	authHandler := handler.NewAuthHandler(registerUseCase, loginUseCase)
 	taskHandler := handler.NewTaskHandler(getCleanerTasksUseCase, completeTaskUseCase)
 	ownerTaskHandler := handler.NewOwnerTaskHandler(createTaskUseCase, getOwnerTasksUseCase)
+	scheduleHandler := handler.NewScheduleHandler(assignTaskUseCase, createScheduleUseCase)
 
 	mux := http.NewServeMux()
 	mux.HandleFunc("/health", func(w http.ResponseWriter, r *http.Request) {
@@ -46,6 +50,8 @@ func main() {
 	mux.HandleFunc("/api/tasks/", taskHandler.CompleteTask)
 	mux.HandleFunc("/api/owner/tasks", ownerTaskHandler.Create)
 	mux.HandleFunc("/api/owner/tasks", ownerTaskHandler.List)
+	mux.HandleFunc("/api/schedule/assign", scheduleHandler.AssignTask)
+	mux.HandleFunc("/api/schedule", scheduleHandler.Create)
 
 	middleware := &handler.AuthMiddleware{}
 	protectedHandler := middleware.RequireAuth(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
