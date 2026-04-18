@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cleanlog
+  namespace: cleanlog
+  labels:
+    app: cleanlog
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: cleanlog
+  template:
+    metadata:
+      labels:
+        app: cleanlog
+    spec:
+      containers:
+      - name: cleanlog
+        image: cleanlog:latest
+        ports:
+        - containerPort: 8080
+        envFrom:
+        - configMapRef:
+            name: cleanlog-config
+        resources:
+          requests:
+            memory: "64Mi"
+            cpu: "100m"
+          limits:
+            memory: "128Mi"
+            cpu: "200m"
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8080
+          initialDelaySeconds: 10
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 8080
+          initialDelaySeconds: 5
+          periodSeconds: 5

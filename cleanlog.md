@@ -29,10 +29,13 @@ There are two types of users, cleaners and owners.  Cleaners perform the cleanin
 - Use custom fetch wrapper for API calls (minimize dependencies)
 - Use golang-migrate for database migrations
 - Use OpenAPI/Swagger for API documentation
+- Use minimal libraries
+- Use the latest version of Go 
+- Use native Go logging
 
 ### Must not
 - Use React
-- Use a log of dependancies, write as much library code yourself
+- Use any authentication frameworks
 
 ### Out of scope
 - Password reset
