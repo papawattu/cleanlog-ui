@@ -40,8 +40,35 @@ There are two types of users, cleaners and owners.  Cleaners perform the cleanin
 - OAuth / social login
 
 ## Current state
-- K8S infrastructure
-- GitHub Actions
+- Go module initialized with hexagonal architecture
+- Hello world REST API endpoint at /health
+- SPA with vanilla JS web components (header, footer)
+- Dockerfiles for backend and frontend
+- docker-compose.yml for local development
+- K8S manifests: deployment, service, configmap, ingress
+- GitHub Actions CI workflow
+- Go unit tests for hello world endpoint
+- Domain entities: User, Task, Schedule (with UUIDs)
+- Repository interfaces (ports) and SQLite implementations
+- Use cases: RegisterUser, Login, CreateTask
+- Unit tests for use cases (7 tests passing)
+- Mock repositories for isolated testing
+- Auth HTTP handlers (register, login)
+- Auth middleware for protected routes
+- Frontend login-form and registration-form web components
+- Integration tests for auth handlers (4 tests passing)
+- SQLite database schema with migrations-ready structure
+- EventBus service for intercomponent communication
+- Custom fetch wrapper (apiClient) for API calls
+- Hash-based router with navigation
+- Main app container with routing links
+- Frontend unit tests for eventBus (5 tests) and apiClient (4 tests) - 9 tests passing
+- E2E tests for routing navigation
+- Use case: GetOwnerTasks
+- Owner task creation form web component (task-form)
+- Owner dashboard web component (dashboard) with stats
+- Backend API endpoints for owner task CRUD
+- 4 unit tests for CreateTask use case
 
 
 ## Tasks

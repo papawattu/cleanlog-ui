@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cleanlog-server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cleanlog-server
+  template:
+    metadata:
+      labels:
+        app: cleanlog-server
+    spec:
+      containers:
+        - name: server
+          image: cleanlog-server:latest
+          ports:
+            - containerPort: 8080
+          env:
+            - name: APP_ENV
+              value: "production"

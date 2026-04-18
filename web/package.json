@@ -1,0 +1,17 @@
+{
+  "name": "cleanlog-frontend",
+  "version": "1.0.0",
+  "scripts": {
+    "test": "jest",
+    "test:e2e": "jest tests/"
+  },
+  "jest": {
+    "testEnvironment": "jsdom",
+    "testMatch": ["**/js/*.test.js"]
+  },
+  "devDependencies": {
+    "jest": "^29.0.0",
+    "jest-environment-jsdom": "^29.0.0",
+    "puppeteer": "^21.0.0"
+  }
+}
